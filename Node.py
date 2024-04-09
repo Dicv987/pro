@@ -15,6 +15,9 @@ class Node:
 
     def __hash__(self):
         return hash(str(self.rubik))
+    
+    def __hashbfs__(self):
+        return hash(tuple(map(tuple, self.rubik)))
 
     def add_move(self, move, clockwise):
         direction = 'CW' if clockwise else 'CCW'
