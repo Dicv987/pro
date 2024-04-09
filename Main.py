@@ -51,7 +51,7 @@ def main():
 
     # Ejecuta el algoritmo BFS con la heurística de colores correctos
     solver = Solvers(scrambled_state_3)
-    solution = solver.best_first_search(heuristic_function=Heuristics.no_heuristic)
+    solution = solver.best_first_search(heuristic_function=Heuristics.exact_position_heuristic)
 
     # Detiene el cronómetro
     end_time = time.time()
