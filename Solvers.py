@@ -40,10 +40,9 @@ class Solvers:
 
         return False
 
-
     def best_first_search(self, heuristic_function):
         initial_rubik = copy.deepcopy(self.rubik.faces)
-        initial_heuristic = heuristic_function(initial_rubik)  # Usa la función heurística pasada como parámetro
+        initial_heuristic = heuristic_function(initial_rubik)
         initial_state = Node(initial_rubik, initial_heuristic)
 
         queue = PriorityQueue()
@@ -56,7 +55,7 @@ class Solvers:
             if self.is_goal(current_node.rubik):
                 return current_node.path
 
-            state_hash = hash(current_node)
+            state_hash = hash(str(current_node.rubik))  # Convierte el estado del Rubik a una cadena para el hash
             if state_hash not in visited:
                 visited.add(state_hash)
 
@@ -74,17 +73,18 @@ class Solvers:
                         move_func(clockwise)
                         new_rubik_state = copy.deepcopy(self.rubik.faces)
 
-                        new_heuristic = heuristic_function(new_rubik_state)  # Usa la función heurística pasada como parámetro
+                        new_heuristic = heuristic_function(new_rubik_state)
                         new_node = Node(new_rubik_state, new_heuristic, move_name, current_node.path + [move_name])
 
-                        if hash(new_node) not in visited:
+                        new_state_hash = hash(str(new_rubik_state))
+                        if new_state_hash not in visited:
                             queue.put((new_heuristic, new_node))
 
         return False
 
-    def a_star(self):
+    def a_star(self,heuristic_function):
         initial_rubik = copy.deepcopy(self.rubik.faces)
-        initial_heuristic = Heuristics.exact_position_heuristic(initial_rubik)
+        initial_heuristic = heuristic_function(initial_rubik)
         initial_state = Node(initial_rubik, initial_heuristic)
 
         queue = PriorityQueue()
@@ -115,7 +115,7 @@ class Solvers:
                         move_func(clockwise)
                         new_rubik_state = copy.deepcopy(self.rubik.faces)
 
-                        new_heuristic = Heuristics.exact_position_heuristic(new_rubik_state)
+                        new_heuristic = heuristic_function(new_rubik_state)
                         new_path_length = len(current_node.path) + 1  # Añade 1 por el movimiento actual
                         new_node = Node(new_rubik_state, new_heuristic, move_name, current_node.path + [move_name])
 

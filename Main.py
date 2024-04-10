@@ -1,65 +1,87 @@
 from rubik import Rubik
-from BFS_Solvers import Solvers
+from Solvers import Solvers
 from Heuristics import Heuristics
-import time  # Importa la librería de tiempo
+import time
 import copy
 
 def main():
     print("Resolviendo cubo de Rubik...")
     rubik = Rubik()
-    rubik.scrambles(3)
+    rubik.scrambles(5)
+
 
     scrambled_state_1 = copy.deepcopy(rubik)
     scrambled_state_2 = copy.deepcopy(rubik)
     scrambled_state_3 = copy.deepcopy(rubik)
     scrambled_state_4 = copy.deepcopy(rubik)
     scrambled_state_5 = copy.deepcopy(rubik)
+    scrambled_state_6 = copy.deepcopy(rubik)
+    scrambled_state_7 = copy.deepcopy(rubik)
 
-    # Inicia el cronómetro
+    # #BFS No Heurístico
+    # print("BFS No Heurístico")
+    # start_time = time.time()
+    # solver = Solvers(scrambled_state_1)
+    # solution = solver.bfs()
+    # print(solution)
+    # print("Longitud de la solución: ", len(solution))
+    # print("--- %s seconds ---" % (time.time() - start_time))
+
+    # #BFS Heurístico exact_position_heuristic
+
+    # print("BFS Heurístico exact_position_heuristic")
+    # start_time = time.time()
+    # solver = Solvers(scrambled_state_2)
+    # solution = solver.best_first_search(Heuristics.exact_position_heuristic)
+    # print(solution)
+    # print("Longitud de la solución: ", len(solution))
+    # print("--- %s seconds ---" % (time.time() - start_time))
+
+    # #BFS Heurístico pattern_matching
+    # print("BFS Heurístico pattern_matching")
+    # start_time = time.time()
+    # solver = Solvers(scrambled_state_3)
+    # solution = solver.best_first_search(Heuristics.pattern_matching)
+    # print(solution)
+    # print("Longitud de la solución: ", len(solution))
+    # print("--- %s seconds ---" % (time.time() - start_time))
+
+    # #BFS Heurístico orientaciones_incorrectas
+    # print("BFS Heurístico orientaciones_incorrectas")
+    # start_time = time.time()
+    # solver = Solvers(scrambled_state_4)
+    # solution = solver.best_first_search(Heuristics.orientaciones_incorrectas)
+    # print(solution)
+    # print("Longitud de la solución: ", len(solution))
+    # print("--- %s seconds ---" % (time.time() - start_time))
+    
+
+    # # A* Heurístico exact_position_heuristic
+    # print("A* Heurístico exact_position_heuristic")
+    # start_time = time.time()
+    # solver = Solvers(scrambled_state_5)
+    # solution = solver.a_star(Heuristics.exact_position_heuristic)
+    # print(solution)
+    # print("Longitud de la solución: ", len(solution))
+    # print("--- %s seconds ---" % (time.time() - start_time))
+
+    # # A* Heurístico pattern_matching
+    # print("A* Heurístico pattern_matching")
+    # start_time = time.time()
+    # solver = Solvers(scrambled_state_6)
+    # solution = solver.a_star(Heuristics.pattern_matching)
+    # print(solution)
+    # print("Longitud de la solución: ", len(solution))
+    # print("--- %s seconds ---" % (time.time() - start_time))
+
+    # A* Heurístico orientaciones_incorrectas
+    print("A* Heurístico orientaciones_incorrectas")
     start_time = time.time()
-
-    # Ejecuta el algoritmo BFS (Breath First Search)
-    solver = Solvers(scrambled_state_1)
-    solution = solver.bfs()
-
-    # Detiene el cronómetro
-    end_time = time.time()
-
-    print("\nSolución con BFS:")
+    solver = Solvers(scrambled_state_7)
+    solution = solver.a_star(Heuristics.orientaciones_incorrectas)
     print(solution)
-    print("Longitud de la solución:", len(solution))
-    print("Tiempo de ejecución: {:.2f} segundos".format(end_time - start_time))
-
-
-    #Inicia el cronómetro
-    start_time = time.time()
-
-    # Ejecuta el algoritmo A* con la heurística de colores correctos
-    solver = Solvers(scrambled_state_2) 
-    solution = solver.a_star()
-
-    # Detiene el cronómetro
-    end_time = time.time()
-
-    print("\nSolución con A estrella:")
-    print(solution)
-    print("Longitud de la solución:", len(solution))
-    print("Tiempo de ejecución: {:.2f} segundos".format(end_time - start_time))
-
-    # Inicia el cronómetro
-    start_time = time.time()
-
-    # Ejecuta el algoritmo BFS con la heurística de colores correctos
-    solver = Solvers(scrambled_state_3)
-    solution = solver.best_first_search(heuristic_function=Heuristics.exact_position_heuristic)
-
-    # Detiene el cronómetro
-    end_time = time.time()
-
-    print("\nSolución con BFS y heurística de colores correctos:")
-    print(solution)
-    print("Longitud de la solución:", len(solution))
-    print("Tiempo de ejecución: {:.2f} segundos".format(end_time - start_time))
+    print("Longitud de la solución: ", len(solution))
+    print("--- %s seconds ---" % (time.time() - start_time))
 
 
 if __name__ == "__main__":
