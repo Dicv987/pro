@@ -7,7 +7,7 @@ import copy
 def main():
     print("Resolviendo cubo de Rubik...")
     rubik = Rubik()
-    rubik.scrambles(5)
+    rubik.scrambles(6)
 
 
     scrambled_state_1 = copy.deepcopy(rubik)
@@ -17,6 +17,7 @@ def main():
     scrambled_state_5 = copy.deepcopy(rubik)
     scrambled_state_6 = copy.deepcopy(rubik)
     scrambled_state_7 = copy.deepcopy(rubik)
+    scrambled_state_8 = copy.deepcopy(rubik)
 
     # #BFS No Heurístico
     # print("BFS No Heurístico")
@@ -74,14 +75,33 @@ def main():
     # print("Longitud de la solución: ", len(solution))
     # print("--- %s seconds ---" % (time.time() - start_time))
 
-    # A* Heurístico orientaciones_incorrectas
-    print("A* Heurístico orientaciones_incorrectas")
+    # # A* Heurístico orientaciones_incorrectas
+    # print("A* Heurístico orientaciones_incorrectas")
+    # start_time = time.time()
+    # solver = Solvers(scrambled_state_7)
+    # solution = solver.a_star(Heuristics.orientaciones_incorrectas)
+    # print(solution)
+    # print("Longitud de la solución: ", len(solution))
+    # print("--- %s seconds ---" % (time.time() - start_time))
+
+    # # A* bidireccional Heurístico orientaciones_incorrectas
+    # print("A* bidireccional Heurístico orientaciones_incorrectas")
+    # start_time = time.time()
+    # solver = Solvers(scrambled_state_8)
+    # solution = solver.iterative_deepening_a_star(Heuristics.orientaciones_incorrectas)
+    # print(solution)
+    # print("Longitud de la solución: ", len(solution))
+    # print("--- %s seconds ---" % (time.time() - start_time))
+
+    # IDA A* Heurístico orientaciones_incorrectas
+    print("IDA A* Heurístico orientaciones_incorrectas")
     start_time = time.time()
-    solver = Solvers(scrambled_state_7)
-    solution = solver.a_star(Heuristics.orientaciones_incorrectas)
+    solver = Solvers(scrambled_state_8)
+    solution = solver.iterative_deepening_A_star(Heuristics.orientaciones_incorrectas)
     print(solution)
     print("Longitud de la solución: ", len(solution))
     print("--- %s seconds ---" % (time.time() - start_time))
+
 
 
 if __name__ == "__main__":

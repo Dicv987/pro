@@ -7,6 +7,9 @@ from queue import PriorityQueue
 import time
 
 class Solvers:
+
+    INF = float("inf")
+
     def __init__(self, rubik):
         self.rubik = rubik
 
@@ -124,6 +127,48 @@ class Solvers:
                             queue.put((total_cost, new_node))
 
         return False
+    
+
+    def iterative_deepening_A_star(self, heuristic):
+        initial_rubik = copy.deepcopy(self.rubik.faces)
+        initial_heuristic = heuristic(initial_rubik)
+        start_node = Node(initial_rubik, initial_heuristic)
+        bound = start_node.heuristic_value
+        path = [start_node]
+        
+        while True:
+            t = self.__search(path, 0, bound, heuristic)
+            if t is True:
+                return [node.last_move for node in path[1:]]  # Returns only the moves
+            if t == float('inf'):
+                return None
+            bound = t
+
+    def __search(self, path, g, bound, heuristic):
+        node = path[-1]
+        f = g + node.heuristic_value
+        if f > bound:
+            return f
+        if self.is_goal(node.rubik):
+            return True
+
+        min = float('inf')
+        for move_func in [self.rubik.move_U, self.rubik.move_R, self.rubik.move_F, self.rubik.move_L, self.rubik.move_D, self.rubik.move_B]:
+            for clockwise in [True, False]:
+                self.rubik.faces = copy.deepcopy(node.rubik)  # Reset the state of the cube to the current node
+                move_func(clockwise)  # Apply the move
+                new_heuristic = heuristic(self.rubik.faces)
+                move_name = f"{move_func.__name__} ({'CW' if clockwise else 'CCW'})"
+                new_node = Node(copy.deepcopy(self.rubik.faces), new_heuristic, move_name, node.path + [move_name])
+                if new_node not in path:  # Check for cycle in the path
+                    path.append(new_node)
+                    t = self.__search(path, g + 1, bound, heuristic)
+                    if t is True:
+                        return True
+                    if t < min:
+                        min = t
+                    path.pop()
+        return min
 
     def is_goal(self, rubik):
         return rubik == self.rubik.faces_solved
