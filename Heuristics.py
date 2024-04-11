@@ -80,7 +80,7 @@ class Heuristics:
         if rubik_cube['B'][2][2] == 'B' and rubik_cube['L'][2][0] == 'O' and rubik_cube['D'][2][0] == 'Y':
             score += 1
 
-        return score
+        return -score
     
     @staticmethod
     def orientaciones_incorrectas(faces):
